@@ -33,41 +33,198 @@
   </nav>
 
   <main class="container">
-    <section class="card" id="abstract">
-      <h2>Abstract</h2>
-      <p></p>
+
+    <!-- INTERACTIVE EMISSIONS COUNTER -->
+    <section class="card">
+        <h2>Interactive Emissions Counter</h2>
+        <p class="muted">
+        Adjust the sliders to estimate how everyday habits add up. This is a teaching tool—numbers are approximate and will be refined with sources.
+        </p>
+
+        <div class="grid2">
+        <div class="card inner">
+            <h3>Daily Inputs</h3>
+
+            <label class="field">
+            <span>Car travel (miles/day)</span>
+            <div class="row">
+                <input id="miles" type="range" min="0" max="60" value="10">
+                <span class="val"><span id="milesVal">10</span></span>
+            </div>
+            </label>
+
+            <label class="field">
+            <span>Takeout meals (per week)</span>
+            <div class="row">
+                <input id="takeout" type="range" min="0" max="14" value="3">
+                <span class="val"><span id="takeoutVal">3</span></span>
+            </div>
+            </label>
+
+            <label class="field">
+            <span>Streaming (hours/day)</span>
+            <div class="row">
+                <input id="stream" type="range" min="0" max="10" value="2">
+                <span class="val"><span id="streamVal">2</span></span>
+            </div>
+            </label>
+
+            <label class="field">
+            <span>Lights/computer left on (hours/day)</span>
+            <div class="row">
+                <input id="idle" type="range" min="0" max="12" value="3">
+                <span class="val"><span id="idleVal">3</span></span>
+            </div>
+            </label>
+
+            <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+        </div>
+
+        <div class="card inner">
+            <h3>Your Estimated Impact</h3>
+
+            <div class="bigNumber">
+            <div class="big">
+                <span id="co2Total">0.0</span>
+                <span class="unit">kg CO₂e / day</span>
+            </div>
+            <p class="muted small">
+                Based on rough factors (placeholder): car ≈ 0.404 kg/mile, takeout packaging/food ≈ 2.0 kg/meal, streaming ≈ 0.06 kg/hour,
+                idle electricity ≈ 0.05 kg/hour. We’ll replace with cited sources later.
+            </p>
+            </div>
+
+            <div class="equivalents">
+            <h4>Quick equivalents (rough)</h4>
+            <ul>
+                <li><strong>Driving equivalent:</strong> <span id="eqMiles">0</span> miles</li>
+                <li><strong>Tree offset (per year):</strong> <span id="eqTrees">0</span> trees*</li>
+            </ul>
+            <p class="muted small">*Tree estimate is a placeholder for visualization, not a recommendation.</p>
+            </div>
+        </div>
+        </div>
     </section>
 
-    <section class="card" id="introduction">
-      <h2>Introduction</h2>
-      <p></p>
+    <!-- VISUAL PLACEHOLDER -->
+    <section class="card">
+        <h2>Visual Element (Coming Soon)</h2>
+        <p class="muted">
+        This will become a chart, infographic, or image gallery showing how impacts compare across categories (waste, electricity, transportation, electronics).
+        </p>
+        <div class="placeholder">
+        <p><strong>Placeholder:</strong> Insert chart / slideshow / image here</p>
+        </div>
     </section>
 
-    <section class="card" id="methodology">
-      <h2>Methodology</h2>
-      <p></p>
+    <!-- WHAT IS THE ANTHROPOCENE -->
+    <section class="card">
+        <h2>What is the Anthropocene?</h2>
+        <p>
+        The “Anthropocene” is a proposed term for a new geological epoch where human activity has become a dominant force shaping Earth’s climate, ecosystems,
+        and even the physical layers of the planet. In other words, our everyday decisions—energy use, consumption, transportation, and waste—leave lasting marks
+        that can be detected on a global scale.
+        </p>
+        <p class="muted">
+        This site uses interactive estimates to make those impacts easier to feel and compare—turning abstract climate data into something personal and visible.
+        </p>
     </section>
 
-    <section class="card" id="results">
-      <h2>Results</h2>
-      <p></p>
+    <!-- EXPLORE RESEARCH SECTIONS -->
+    <section class="card">
+        <h2>Explore the Research Sections</h2>
+        <div class="linkGrid">
+        <a class="linkCard" href="pages/abstract.html">Abstract</a>
+        <a class="linkCard" href="pages/introduction.html">Introduction</a>
+        <a class="linkCard" href="pages/methodology.html">Methodology</a>
+        <a class="linkCard" href="pages/results.html">Results</a>
+        <a class="linkCard" href="pages/discussion.html">Discussion</a>
+        <a class="linkCard" href="pages/conclusion.html">Conclusion</a>
+        <a class="linkCard" href="pages/references.html">References</a>
+        </div>
     </section>
 
-    <section class="card" id="discussion">
-      <h2>Discussion</h2>
-      <p></p>
-    </section>
-
-    <section class="card" id="conclusion">
-      <h2>Conclusion</h2>
-      <p></p>
-    </section>
-
-    <section class="card" id="references">
-      <h2>References</h2>
-      <p></p>
-    </section>
   </main>
+
+  <script>
+  // --- Simple, placeholder factors (we'll replace with sourced values later) ---
+  const FACTORS = {
+    carKgPerMile: 0.404,      // kg CO2e per mile (placeholder)
+    takeoutKgPerMeal: 2.0,    // kg CO2e per takeout meal (placeholder)
+    streamKgPerHour: 0.06,    // kg CO2e per hour streaming (placeholder)
+    idleKgPerHour: 0.05       // kg CO2e per hour idle electricity (placeholder)
+  };
+
+  const els = {
+    miles: document.getElementById('miles'),
+    takeout: document.getElementById('takeout'),
+    stream: document.getElementById('stream'),
+    idle: document.getElementById('idle'),
+
+    milesVal: document.getElementById('milesVal'),
+    takeoutVal: document.getElementById('takeoutVal'),
+    streamVal: document.getElementById('streamVal'),
+    idleVal: document.getElementById('idleVal'),
+
+    co2Total: document.getElementById('co2Total'),
+    eqMiles: document.getElementById('eqMiles'),
+    eqTrees: document.getElementById('eqTrees'),
+
+    resetBtn: document.getElementById('resetBtn')
+  };
+
+  function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+
+  function compute(){
+    const miles = Number(els.miles.value);
+    const takeoutWeek = Number(els.takeout.value);
+    const stream = Number(els.stream.value);
+    const idle = Number(els.idle.value);
+
+    // display slider values
+    els.milesVal.textContent = miles;
+    els.takeoutVal.textContent = takeoutWeek;
+    els.streamVal.textContent = stream;
+    els.idleVal.textContent = idle;
+
+    // convert weekly takeout -> per-day
+    const takeoutPerDay = takeoutWeek / 7;
+
+    const total =
+      miles * FACTORS.carKgPerMile +
+      takeoutPerDay * FACTORS.takeoutKgPerMeal +
+      stream * FACTORS.streamKgPerHour +
+      idle * FACTORS.idleKgPerHour;
+
+    const rounded = Math.round(total * 10) / 10;
+    els.co2Total.textContent = rounded.toFixed(1);
+
+    // equivalents (rough visuals)
+    const drivingEqMiles = Math.round(total / FACTORS.carKgPerMile);
+    els.eqMiles.textContent = drivingEqMiles;
+
+    // tree offset: placeholder assumption 1 tree offsets ~21 kg CO2/year (very rough)
+    const trees = Math.round((total * 365) / 21);
+    els.eqTrees.textContent = clamp(trees, 0, 9999);
+  }
+
+  ['input','change'].forEach(evt => {
+    els.miles.addEventListener(evt, compute);
+    els.takeout.addEventListener(evt, compute);
+    els.stream.addEventListener(evt, compute);
+    els.idle.addEventListener(evt, compute);
+  });
+
+  els.resetBtn.addEventListener('click', () => {
+    els.miles.value = 10;
+    els.takeout.value = 3;
+    els.stream.value = 2;
+    els.idle.value = 3;
+    compute();
+  });
+
+  compute();
+  </script>
 
   <footer class="footer">
     <div class="container">
