@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css" />
 </head>
+
 <body>
 
 <header class="hero">
@@ -24,99 +25,89 @@
     <a href="waste.html">Waste</a>
     <a href="electricity.html">Electricity</a>
     <a href="technology.html">Technology</a>
-    <a href="transportation.html">Tranportation</a>
+    <a href="transportation.html">Transportation</a>
     <a href="conclusion.html">Conclusion</a>
     <a href="aboutus.html">About Us</a>
   </div>
 </nav>
 
 <main class="container">
+
   <section class="card">
     <h2>Waste</h2>
     <p></p>
   </section>
-</main>
 
-<section class="card" id="calculator">
+  <section class="card" id="calculator">
 
-  <div class="grid2">
+    <h3>Weekly Waste Habits</h3>
 
-    <!-- INPUTS -->
+    <label class="field">
+      <span>Takeout meals (per week)</span>
+      <div class="row">
+        <input id="takeout" type="range" min="0" max="14" value="3" />
+        <span class="val"><span id="takeoutVal">3</span></span>
+      </div>
+    </label>
+
+    <label class="field">
+      <span>Packages delivered (per week)</span>
+      <div class="row">
+        <input id="packages" type="range" min="0" max="10" value="2" />
+        <span class="val"><span id="packagesVal">2</span></span>
+      </div>
+    </label>
+
+    <label class="field">
+      <span>Plastic water bottles used (per week)</span>
+      <div class="row">
+        <input id="bottles" type="range" min="0" max="30" value="5" />
+        <span class="val"><span id="bottlesVal">5</span></span>
+      </div>
+    </label>
+
+    <label class="field">
+      <span>Restaurant meals (per week)</span>
+      <div class="row">
+        <input id="eatout" type="range" min="0" max="14" value="3" />
+        <span class="val"><span id="eatoutVal">3</span></span>
+      </div>
+    </label>
+
+    <label class="field">
+      <span>Plastic grocery bags used (per week)</span>
+      <div class="row">
+        <input id="bags" type="range" min="0" max="20" value="4" />
+        <span class="val"><span id="bagsVal">4</span></span>
+      </div>
+    </label>
+
+    <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+
     <div class="card inner">
-
-      <h3>Weekly Waste Habits</h3>
-
-      <label class="field">
-        <span>Takeout meals (per week)</span>
-        <div class="row">
-          <input id="takeout" type="range" min="0" max="14" value="3" />
-          <span class="val"><span id="takeoutVal">3</span></span>
-        </div>
-      </label>
-
-      <label class="field">
-        <span>Packages delivered (per week)</span>
-        <div class="row">
-          <input id="packages" type="range" min="0" max="10" value="2" />
-          <span class="val"><span id="packagesVal">2</span></span>
-        </div>
-      </label>
-
-      <label class="field">
-        <span>Plastic water bottles used (per week)</span>
-        <div class="row">
-          <input id="bottles" type="range" min="0" max="30" value="5" />
-          <span class="val"><span id="bottlesVal">5</span></span>
-        </div>
-      </label>
-
-      <label class="field">
-        <span>Restaurant meals (per week)</span>
-        <div class="row">
-          <input id="eatout" type="range" min="0" max="14" value="3" />
-          <span class="val"><span id="eatoutVal">3</span></span>
-        </div>
-      </label>
-
-      <label class="field">
-        <span>Plastic grocery bags used (per week)</span>
-        <div class="row">
-          <input id="bags" type="range" min="0" max="20" value="4" />
-          <span class="val"><span id="bagsVal">4</span></span>
-        </div>
-      </label>
-
-      <button id="resetBtn" class="btn secondary" type="button">Reset</button>
-
-    </div>
-
-    <!-- RESULTS -->
-    <div class="card inner">
-
       <h3>Your Estimated Impact</h3>
 
       <div class="bigNumber">
-
         <div class="big">
           <span id="co2KgWeek">0</span>
           <span class="unit">kg CO₂ / week</span>
         </div>
 
         <p class="muted small">
-          Landfill waste: <strong><span id="landfill">0</span></strong> kg/week
+          Landfill waste:
+          <strong><span id="landfill">0</span></strong> kg/week
         </p>
 
         <p class="muted small">
-          Water used: <strong><span id="water">0</span></strong> liters/week
+          Water used:
+          <strong><span id="water">0</span></strong> liters/week
         </p>
-
       </div>
-
     </div>
 
-  </div>
+  </section>
 
-</section>
+</main>
 
 <script>
 
@@ -196,11 +187,13 @@ function compute() {
 });
 
 els.resetBtn.addEventListener('click', () => {
+
   els.takeout.value = 3;
   els.packages.value = 2;
   els.bottles.value = 5;
   els.eatout.value = 3;
   els.bags.value = 4;
+
   compute();
 });
 
