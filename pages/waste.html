@@ -32,7 +32,7 @@
   <main class="container">
     <section class="card" id="calculator">
       <h2>Interactive Waste Calculator</h2>
-      <p class="muted">Adjust the sliders to estimate how your weekly habits contribute to CO₂, landfill, and water usage.</p>
+      <p class="muted">Adjust the sliders to estimate how your weekly habits contribute to CO₂ and landfill waste.</p>
 
       <div class="grid2">
         <div class="card inner">
@@ -63,14 +63,6 @@
           </label>
 
           <label class="field">
-            <span>Restaurant meals (per week)</span>
-            <div class="row">
-              <input id="eatout" type="range" min="0" max="21" value="3" />
-              <span class="val"><span id="eatoutVal">3</span></span>
-            </div>
-          </label>
-
-          <label class="field">
             <span>Plastic grocery bags used (per week)</span>
             <div class="row">
               <input id="bags" type="range" min="0" max="30" value="4" />
@@ -87,22 +79,20 @@
           <div class="bigNumber">
             <div class="big">
               <span id="co2KgWeek">0</span>
-              <span class="unit">kg CO₂ / week</span>
+              <span class="unit">kg CO₂e / week</span>
             </div>
 
             <p class="muted small">
               Landfill waste: <strong><span id="landfill">0</span></strong> kg/week
             </p>
-
-            <p class="muted small">
-              Water used: <strong><span id="water">0</span></strong> liters/week
-            </p>
           </div>
 
           <p class="muted small">
-            Factors used (simplified averages based on lifecycle studies):
-            takeout meal ≈ 4 kg CO₂, restaurant meal ≈ 4.5 kg CO₂, package delivery ≈ 1.5 kg CO₂,
-            plastic bottle ≈ 0.25 kg CO₂ and ~5 L water, plastic grocery bag ≈ 0.02 kg landfill waste.
+            Factors used (per-unit averages based on lifecycle studies):
+            takeout meal ≈ 0.20 kg CO₂e / 0.01 kg waste,
+            package delivery ≈ 0.75 kg CO₂e / 1.50 kg waste,
+            plastic bottle ≈ 0.08 kg CO₂e / 0.02 kg waste,
+            plastic grocery bag ≈ 1.58 kg CO₂e / 0.02 kg waste.
           </p>
         </div>
       </div>
@@ -111,94 +101,78 @@
 
   <script>
     const FACTORS = {
-      takeoutCO2: 4.0,
-      packageCO2: 1.5,
-      bottleCO2: 0.25,
-      restaurantCO2: 4.5,
+      takeoutCO2:  0.20,
+      packageCO2:  0.75,
+      bottleCO2:   0.08,
+      bagCO2:      1.58,
 
-      bagWaste: 0.02,
-      bottleWaste: 0.02,
-      takeoutWaste: 0.06,
-
-      bottleWater: 5,
-      takeoutWater: 25,
-      restaurantWater: 35
+      takeoutWaste: 0.01,
+      packageWaste: 1.50,
+      bottleWaste:  0.02,
+      bagWaste:     0.02
     };
 
     const els = {
-      takeout: document.getElementById('takeout'),
-      packages: document.getElementById('packages'),
-      bottles: document.getElementById('bottles'),
-      eatout: document.getElementById('eatout'),
-      bags: document.getElementById('bags'),
+      takeout:     document.getElementById('takeout'),
+      packages:    document.getElementById('packages'),
+      bottles:     document.getElementById('bottles'),
+      bags:        document.getElementById('bags'),
 
-      takeoutVal: document.getElementById('takeoutVal'),
+      takeoutVal:  document.getElementById('takeoutVal'),
       packagesVal: document.getElementById('packagesVal'),
-      bottlesVal: document.getElementById('bottlesVal'),
-      eatoutVal: document.getElementById('eatoutVal'),
-      bagsVal: document.getElementById('bagsVal'),
+      bottlesVal:  document.getElementById('bottlesVal'),
+      bagsVal:     document.getElementById('bagsVal'),
 
-      co2KgWeek: document.getElementById('co2KgWeek'),
-      landfill: document.getElementById('landfill'),
-      water: document.getElementById('water'),
+      co2KgWeek:   document.getElementById('co2KgWeek'),
+      landfill:    document.getElementById('landfill'),
 
-      resetBtn: document.getElementById('resetBtn')
+      resetBtn:    document.getElementById('resetBtn')
     };
 
     function compute() {
-      const takeout = Number(els.takeout.value);
+      const takeout  = Number(els.takeout.value);
       const packages = Number(els.packages.value);
-      const bottles = Number(els.bottles.value);
-      const eatout = Number(els.eatout.value);
-      const bags = Number(els.bags.value);
+      const bottles  = Number(els.bottles.value);
+      const bags     = Number(els.bags.value);
 
-      // update slider values
-      els.takeoutVal.textContent = takeout;
+      // update slider display values
+      els.takeoutVal.textContent  = takeout;
       els.packagesVal.textContent = packages;
-      els.bottlesVal.textContent = bottles;
-      els.eatoutVal.textContent = eatout;
-      els.bagsVal.textContent = bags;
+      els.bottlesVal.textContent  = bottles;
+      els.bagsVal.textContent     = bags;
 
-      // CO2 (kg/week)
+      // CO2e (kg/week)
       const co2 =
-        takeout * FACTORS.takeoutCO2 +
+        takeout  * FACTORS.takeoutCO2 +
         packages * FACTORS.packageCO2 +
-        bottles * FACTORS.bottleCO2 +
-        eatout * FACTORS.restaurantCO2;
+        bottles  * FACTORS.bottleCO2  +
+        bags     * FACTORS.bagCO2;
 
       // landfill waste (kg/week)
       const landfill =
-        bottles * FACTORS.bottleWaste +
-        bags * FACTORS.bagWaste +
-        takeout * FACTORS.takeoutWaste;
+        takeout  * FACTORS.takeoutWaste +
+        packages * FACTORS.packageWaste +
+        bottles  * FACTORS.bottleWaste  +
+        bags     * FACTORS.bagWaste;
 
-      // water usage (L/week)
-      const water =
-        bottles * FACTORS.bottleWater +
-        takeout * FACTORS.takeoutWater +
-        eatout * FACTORS.restaurantWater;
-
-      els.co2KgWeek.textContent = co2.toFixed(1);
-      els.landfill.textContent = landfill.toFixed(2);
-      els.water.textContent = Math.round(water);
+      els.co2KgWeek.textContent = co2.toFixed(2);
+      els.landfill.textContent  = landfill.toFixed(2);
     }
 
     // slider listeners
-    ['input','change'].forEach(evt => {
-      els.takeout.addEventListener(evt, compute);
+    ['input', 'change'].forEach(evt => {
+      els.takeout.addEventListener(evt,  compute);
       els.packages.addEventListener(evt, compute);
-      els.bottles.addEventListener(evt, compute);
-      els.eatout.addEventListener(evt, compute);
-      els.bags.addEventListener(evt, compute);
+      els.bottles.addEventListener(evt,  compute);
+      els.bags.addEventListener(evt,     compute);
     });
 
     // reset button
     els.resetBtn.addEventListener('click', () => {
-      els.takeout.value = 3;
+      els.takeout.value  = 3;
       els.packages.value = 2;
-      els.bottles.value = 5;
-      els.eatout.value = 3;
-      els.bags.value = 4;
+      els.bottles.value  = 5;
+      els.bags.value     = 4;
       compute();
     });
 
