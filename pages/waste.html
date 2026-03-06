@@ -13,7 +13,7 @@
       <span class="pill">Interactive climate awareness</span>
       <h1>You are the Anthropocene</h1>
       <p class="subhead">Nicholas Nguyen and Kevin Fang</p>
-      <p class="lead">A closer look at “invisible emissions” from everyday choices.</p>
+      <p class="lead">How does your waste contribute to the Climate Crisis?</p>
     </div>
   </header>
 <!-- change header -->
@@ -35,6 +35,170 @@
       <p></p>
     </section>
   </main>
+
+  <section class="card" id="calculator">
+    <h3>Weekly Waste Habits</h3>
+
+    <label class="field">
+      <span>Takeout meals (per week)</span>
+      <div class="row">
+        <input id="takeout" type="range" min="0" max="14" value="3" />
+        <span class="val"><span id="takeoutVal">3</span></span>
+      </div>
+    </label>
+    
+    <label class="field">
+      <span>Packages delivered (per week)</span>
+      <div class="row">
+        <input id="packages" type="range" min="0" max="10" value="2" />
+        <span class="val"><span id="packagesVal">2</span></span>
+      </div>
+    </label>
+    
+    <label class="field">
+      <span>Plastic water bottles used (per week)</span>
+      <div class="row">
+        <input id="bottles" type="range" min="0" max="30" value="5" />
+        <span class="val"><span id="bottlesVal">5</span></span>
+      </div>
+    </label>
+    
+    <label class="field">
+      <span>Restaurant meals (per week)</span>
+      <div class="row">
+        <input id="eatout" type="range" min="0" max="14" value="3" />
+        <span class="val"><span id="eatoutVal">3</span></span>
+      </div>
+    </label>
+    
+    <label class="field">
+      <span>Plastic grocery bags used (per week)</span>
+      <div class="row">
+        <input id="bags" type="range" min="0" max="20" value="4" />
+        <span class="val"><span id="bagsVal">4</span></span>
+      </div>
+    </label>
+
+    <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+
+      <div class="card inner">
+        <h3>Your Estimated Impact</h3>
+
+<div class="bigNumber">
+  <div class="big">
+    <span id="co2KgWeek">0</span>
+    <span class="unit">kg CO₂ / week</span>
+  </div>
+
+  <p class="muted small">
+    Landfill waste: <strong><span id="landfill">0</span></strong> kg/week
+  </p>
+
+  <p class="muted small">
+    Water used: <strong><span id="water">0</span></strong> liters/week
+  </p>
+</div>
+    </div>
+  </section>
+
+  <script>
+
+    const FACTORS = {
+      takeoutCO2: 2.5,
+      packageCO2: 1.2,
+      bottleCO2: 0.1,
+      restaurantCO2: 3.0,
+      bagWaste: 0.02,
+    
+      bottleWater: 3,
+      takeoutWater: 15,
+      restaurantWater: 20
+    };
+    
+    const els = {
+      takeout: document.getElementById('takeout'),
+      packages: document.getElementById('packages'),
+      bottles: document.getElementById('bottles'),
+      eatout: document.getElementById('eatout'),
+      bags: document.getElementById('bags'),
+    
+      takeoutVal: document.getElementById('takeoutVal'),
+      packagesVal: document.getElementById('packagesVal'),
+      bottlesVal: document.getElementById('bottlesVal'),
+      eatoutVal: document.getElementById('eatoutVal'),
+      bagsVal: document.getElementById('bagsVal'),
+    
+      co2KgWeek: document.getElementById('co2KgWeek'),
+      landfill: document.getElementById('landfill'),
+      water: document.getElementById('water'),
+    
+      resetBtn: document.getElementById('resetBtn')
+    };
+    
+    function compute() {
+    
+      const takeout = Number(els.takeout.value);
+      const packages = Number(els.packages.value);
+      const bottles = Number(els.bottles.value);
+      const eatout = Number(els.eatout.value);
+      const bags = Number(els.bags.value);
+    
+      // update slider numbers
+      els.takeoutVal.textContent = takeout;
+      els.packagesVal.textContent = packages;
+      els.bottlesVal.textContent = bottles;
+      els.eatoutVal.textContent = eatout;
+      els.bagsVal.textContent = bags;
+    
+      // CO2 emissions
+      const co2 =
+        takeout * FACTORS.takeoutCO2 +
+        packages * FACTORS.packageCO2 +
+        bottles * FACTORS.bottleCO2 +
+        eatout * FACTORS.restaurantCO2;
+    
+      // landfill waste
+      const landfill =
+        bottles * 0.02 +
+        bags * FACTORS.bagWaste +
+        takeout * 0.05;
+    
+      // water usage
+      const water =
+        bottles * FACTORS.bottleWater +
+        takeout * FACTORS.takeoutWater +
+        eatout * FACTORS.restaurantWater;
+    
+      els.co2KgWeek.textContent = co2.toFixed(1);
+      els.landfill.textContent = landfill.toFixed(2);
+      els.water.textContent = Math.round(water);
+    }
+    
+    // slider listeners
+    ['input','change'].forEach(evt => {
+      els.takeout.addEventListener(evt, compute);
+      els.packages.addEventListener(evt, compute);
+      els.bottles.addEventListener(evt, compute);
+      els.eatout.addEventListener(evt, compute);
+      els.bags.addEventListener(evt, compute);
+    });
+    
+    // reset button
+    els.resetBtn.addEventListener('click', () => {
+    
+      els.takeout.value = 3;
+      els.packages.value = 2;
+      els.bottles.value = 5;
+      els.eatout.value = 3;
+      els.bags.value = 4;
+    
+      compute();
+    });
+    
+    // run on page load
+    compute();
+    
+    </script>
 
   <footer class="footer">
     <div class="container"><p>HNRS 301 — Art Meets the Climate Crisis</p></div>
