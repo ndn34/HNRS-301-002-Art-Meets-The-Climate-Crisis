@@ -13,31 +13,217 @@
       <span class="pill">Interactive climate awareness</span>
       <h1>You are the Anthropocene</h1>
       <p class="subhead">Nicholas Nguyen and Kevin Fang</p>
-      <p class="lead">Interpreting the outputs: limits, patterns, and what matters most.</p>
+      <p class="lead">How does your electricity consumption contribute to the Climate Crisis?</p>
     </div>
   </header>
-<!-- change lead -->
-<nav class="topnav">
-  <div class="container nav-inner">
-    <a href="../index.html">Home</a>
-    <a href="waste.html">Waste</a>
-    <a href="electricity.html">Electricity</a>
-    <a href="technology.html">Technology</a>
-    <a href="transportation.html">Tranportation</a>
-    <a href="conclusion.html">Conclusion</a>
-    <a href="aboutus.html">About Us</a>
-  </div>
-</nav>
+
+  <nav class="topnav">
+    <div class="container nav-inner">
+      <a href="../index.html">Home</a>
+      <a href="waste.html">Waste</a>
+      <a href="electricity.html">Electricity</a>
+      <a href="technology.html">Technology</a>
+      <a href="transportation.html">Transportation</a>
+      <a href="conclusion.html">Conclusion</a>
+      <a href="aboutus.html">About Us</a>
+    </div>
+  </nav>
 
   <main class="container">
+
     <section class="card">
-      <h2>Electricity</h2>
-      <p></p>
+      <h2>Electricity Consumption</h2>
+      <p>
+        
+      </p>
     </section>
+
+    <section class="card" id="calculator">
+      <h2>Interactive Electricity Calculator</h2>
+      <p class="muted">Adjust the sliders to estimate how your weekly habits consume electricity.</p>
+
+      <div class="grid2">
+        <div class="card inner">
+          <h3>Weekly Inputs</h3>
+
+          <label class="field">
+            <span>Hours on Phone (per week)</span>
+            <div class="row">
+              <input id="phone" type="range" min="0" max="168" value="28" />
+              <span class="val"><span id="phoneVal">28</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Hours on Laptop/Computer (per week)</span>
+            <div class="row">
+              <input id="laptop" type="range" min="0" max="168" value="20" />
+              <span class="val"><span id="laptopVal">20</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Streaming Hours (per week)</span>
+            <div class="row">
+              <input id="streaming" type="range" min="0" max="168" value="10" />
+              <span class="val"><span id="streamingVal">10</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>AI Chatbot Messages (per week)</span>
+            <div class="row">
+              <input id="chatbot" type="range" min="0" max="500" value="20" />
+              <span class="val"><span id="chatbotVal">20</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>AC / Heating Hours (per week)</span>
+            <div class="row">
+              <input id="hvac" type="range" min="0" max="168" value="40" />
+              <span class="val"><span id="hvacVal">40</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Number of Refrigerators</span>
+            <div class="row">
+              <input id="fridges" type="range" min="0" max="5" value="1" />
+              <span class="val"><span id="fridgesVal">1</span></span>
+            </div>
+          </label>
+
+          <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+        </div>
+
+        <div class="card inner">
+          <h3>Your Estimated Impact</h3>
+
+          <div class="bigNumber">
+            <div class="big">
+              <span id="kwhWeek">0</span>
+              <span class="unit">kWh / week</span>
+            </div>
+          </div>
+
+          <p class="muted small">
+            Factors used (per-unit averages):<br><br>
+            📱 Phone ≈ 0.005 kWh/hr<br>
+            💻 Laptop/Computer ≈ 0.05 kWh/hr<br>
+            📺 Streaming ≈ 0.05 kWh/hr (Energy Sage)<br>
+            🤖 AI Chatbot ≈ 0.02 kWh/message<br>
+            ❄️ AC/Heating ≈ 3.0 kWh/hr (CNET)<br>
+            🧊 Refrigerator ≈ 3.5 kWh/week per fridge
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Discussion</h2>
+      <p>
+        
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>"" by </h2>
+      <img src="../images/Shadow_City_Minnie_Jeff_Gillete.webp" alt="Shadow City Minnie by Jeff Gillette" style="width: 100%; max-width: 600px; display: block; margin: 0 auto;" />
+      <p>
+        <br>
+        
+      </p>
+    </section>
+
   </main>
 
+  <script>
+    const FACTORS = {
+      phonekWh:     0.005,
+      laptopkWh:    0.05,
+      streamingkWh: 0.05,
+      chatbotkWh:   0.02,
+      hvackWh:      3.0,
+      fridgekWh:    3.5   // per fridge per week
+    };
+
+    const els = {
+      phone:     document.getElementById('phone'),
+      laptop:    document.getElementById('laptop'),
+      streaming: document.getElementById('streaming'),
+      chatbot:   document.getElementById('chatbot'),
+      hvac:      document.getElementById('hvac'),
+      fridges:   document.getElementById('fridges'),
+
+      phoneVal:     document.getElementById('phoneVal'),
+      laptopVal:    document.getElementById('laptopVal'),
+      streamingVal: document.getElementById('streamingVal'),
+      chatbotVal:   document.getElementById('chatbotVal'),
+      hvacVal:      document.getElementById('hvacVal'),
+      fridgesVal:   document.getElementById('fridgesVal'),
+
+      kwhWeek: document.getElementById('kwhWeek'),
+      resetBtn: document.getElementById('resetBtn')
+    };
+
+    function compute() {
+      const phone     = Number(els.phone.value);
+      const laptop    = Number(els.laptop.value);
+      const streaming = Number(els.streaming.value);
+      const chatbot   = Number(els.chatbot.value);
+      const hvac      = Number(els.hvac.value);
+      const fridges   = Number(els.fridges.value);
+
+      // update slider display values
+      els.phoneVal.textContent     = phone;
+      els.laptopVal.textContent    = laptop;
+      els.streamingVal.textContent = streaming;
+      els.chatbotVal.textContent   = chatbot;
+      els.hvacVal.textContent      = hvac;
+      els.fridgesVal.textContent   = fridges;
+
+      // kWh per week
+      const kwh =
+        phone     * FACTORS.phonekWh     +
+        laptop    * FACTORS.laptopkWh    +
+        streaming * FACTORS.streamingkWh +
+        chatbot   * FACTORS.chatbotkWh   +
+        hvac      * FACTORS.hvackWh      +
+        fridges   * FACTORS.fridgekWh;
+
+      els.kwhWeek.textContent = kwh.toFixed(2);
+    }
+
+    // slider listeners
+    ['input', 'change'].forEach(evt => {
+      els.phone.addEventListener(evt,     compute);
+      els.laptop.addEventListener(evt,    compute);
+      els.streaming.addEventListener(evt, compute);
+      els.chatbot.addEventListener(evt,   compute);
+      els.hvac.addEventListener(evt,      compute);
+      els.fridges.addEventListener(evt,   compute);
+    });
+
+    // reset button
+    els.resetBtn.addEventListener('click', () => {
+      els.phone.value     = 28;
+      els.laptop.value    = 20;
+      els.streaming.value = 10;
+      els.chatbot.value   = 20;
+      els.hvac.value      = 40;
+      els.fridges.value   = 1;
+      compute();
+    });
+
+    // run on page load
+    compute();
+  </script>
+
   <footer class="footer">
-    <div class="container"><p>HNRS 301 — Art Meets the Climate Crisis</p></div>
+    <div class="container">
+      <p>HNRS 301 — Art Meets the Climate Crisis</p>
+    </div>
   </footer>
 </body>
 </html>
