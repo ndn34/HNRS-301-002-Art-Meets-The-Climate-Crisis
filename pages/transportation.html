@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Tranportation | You are the Anthropocene</title>
+  <title>Transportation | You are the Anthropocene</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css" />
@@ -10,32 +10,216 @@
 <body>
   <header class="hero">
     <div class="container">
-      <span class="pill">Interactive climate awareness</span>
+      <span class="pill">Interactive Climate Awareness</span>
       <h1>You are the Anthropocene</h1>
       <p class="subhead">Nicholas Nguyen and Kevin Fang</p>
-      <p class="lead">How inputs become estimates: assumptions, conversions, and sources.</p>
+      <p class="lead">How does your transportation contribute to the Climate Crisis?</p>
     </div>
   </header>
-<!-- change lead -->
-<nav class="topnav">
-  <div class="container nav-inner">
-    <a href="../index.html">Home</a>
-    <a href="waste.html">Waste</a>
-    <a href="electricity.html">Electricity</a>
-    <a href="technology.html">Technology</a>
-    <a href="transportation.html">Tranportation</a>
-    <a href="conclusion.html">Conclusion</a>
-    <a href="aboutus.html">About Us</a>
-  </div>
-</nav>
+
+  <nav class="topnav">
+    <div class="container nav-inner">
+      <a href="../index.html">Home</a>
+      <a href="waste.html">Waste</a>
+      <a href="electricity.html">Electricity</a>
+      <a href="technology.html">Technology</a>
+      <a href="transportation.html">Transportation</a>
+      <a href="conclusion.html">Conclusion</a>
+      <a href="aboutus.html">About Us</a>
+    </div>
+  </nav>
 
   <main class="container">
+
     <section class="card">
       <h2>Transportation</h2>
       <p>
-       </p>
+        Transportation is one of the clearest ways everyday choices scale into environmental impact. Cars, buses, trains,
+        and airplanes all move people from place to place, but they do not do so equally. Driving alone is often much
+        more carbon-intensive than shared transit, while flights can produce a large burst of emissions in a short period
+        of time. The calculator below is meant to help visualize how weekly travel habits add up. It is not a perfect
+        carbon audit, but it can make the hidden environmental cost of movement easier to understand.
+      </p>
     </section>
+
+    <section class="card" id="calculator">
+      <h2>Interactive Transportation Calculator</h2>
+      <p class="muted">
+        Adjust the sliders to estimate how your weekly transportation habits contribute to CO₂ emissions.
+      </p>
+
+      <div class="grid2">
+        <div class="card inner">
+          <h3>Travel Inputs</h3>
+
+          <label class="field">
+            <span>Car travel (miles per week)</span>
+            <div class="row">
+              <input id="carMiles" type="range" min="0" max="500" value="80" />
+              <span class="val"><span id="carMilesVal">80</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Public transit travel (miles per week)</span>
+            <div class="row">
+              <input id="transitMiles" type="range" min="0" max="300" value="20" />
+              <span class="val"><span id="transitMilesVal">20</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Train travel (miles per week)</span>
+            <div class="row">
+              <input id="trainMiles" type="range" min="0" max="300" value="10" />
+              <span class="val"><span id="trainMilesVal">10</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Flights per year</span>
+            <div class="row">
+              <input id="flights" type="range" min="0" max="20" value="2" />
+              <span class="val"><span id="flightsVal">2</span></span>
+            </div>
+          </label>
+
+          <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+        </div>
+
+        <div class="card inner">
+          <h3>Your Estimated Impact</h3>
+
+          <div class="bigNumber">
+            <div class="big">
+              <span id="co2KgWeek">0</span>
+              <span class="unit">kg CO₂e / week</span>
+            </div>
+
+            <p class="muted small">
+              ≈ <strong><span id="co2KgYear">0</span></strong> kg CO₂e / year
+            </p>
+          </div>
+
+          <div class="equivalents">
+            <h4>Mode Comparison (rough)</h4>
+            <ul>
+              <li><strong>Driving emissions:</strong> <span id="carOnly">0</span> kg/week</li>
+              <li><strong>Public transit emissions:</strong> <span id="transitOnly">0</span> kg/week</li>
+              <li><strong>Train emissions:</strong> <span id="trainOnly">0</span> kg/week</li>
+              <li><strong>Flight impact:</strong> <span id="flightOnly">0</span> kg/week</li>
+            </ul>
+          </div>
+
+          <p class="muted small">
+            Factors used (rough teaching averages):<br><br>
+            Car travel ≈ 0.404 kg CO₂e per mile<br>
+            Public transit ≈ 0.14 kg CO₂e per mile<br>
+            Train travel ≈ 0.06 kg CO₂e per mile<br>
+            One flight ≈ 250 kg CO₂e each, averaged across the year<br><br>
+            These are simplified comparison values to help show relative impact.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Discussion</h2>
+      <p>
+        
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Artwork / Visual Interpretation</h2>
+      <div class="placeholder">
+        <p><strong>Placeholder:</strong> Insert transportation-related artwork or image here</p>
+      </div>
+      <p>
+        <br>
+        
+      </p>
+    </section>
+
   </main>
+
+  <script>
+    const FACTORS = {
+      carKgPerMile: 0.404,
+      transitKgPerMile: 0.14,
+      trainKgPerMile: 0.06,
+      flightKgEach: 250
+    };
+
+    const els = {
+      carMiles: document.getElementById('carMiles'),
+      transitMiles: document.getElementById('transitMiles'),
+      trainMiles: document.getElementById('trainMiles'),
+      flights: document.getElementById('flights'),
+
+      carMilesVal: document.getElementById('carMilesVal'),
+      transitMilesVal: document.getElementById('transitMilesVal'),
+      trainMilesVal: document.getElementById('trainMilesVal'),
+      flightsVal: document.getElementById('flightsVal'),
+
+      co2KgWeek: document.getElementById('co2KgWeek'),
+      co2KgYear: document.getElementById('co2KgYear'),
+
+      carOnly: document.getElementById('carOnly'),
+      transitOnly: document.getElementById('transitOnly'),
+      trainOnly: document.getElementById('trainOnly'),
+      flightOnly: document.getElementById('flightOnly'),
+
+      resetBtn: document.getElementById('resetBtn')
+    };
+
+    function compute() {
+      const carMiles = Number(els.carMiles.value);
+      const transitMiles = Number(els.transitMiles.value);
+      const trainMiles = Number(els.trainMiles.value);
+      const flights = Number(els.flights.value);
+
+      els.carMilesVal.textContent = carMiles;
+      els.transitMilesVal.textContent = transitMiles;
+      els.trainMilesVal.textContent = trainMiles;
+      els.flightsVal.textContent = flights;
+
+      const carCO2 = carMiles * FACTORS.carKgPerMile;
+      const transitCO2 = transitMiles * FACTORS.transitKgPerMile;
+      const trainCO2 = trainMiles * FACTORS.trainKgPerMile;
+
+      // Spread annual flight emissions across weeks
+      const flightCO2Week = (flights * FACTORS.flightKgEach) / 52;
+
+      const totalWeek = carCO2 + transitCO2 + trainCO2 + flightCO2Week;
+      const totalYear = totalWeek * 52;
+
+      els.co2KgWeek.textContent = totalWeek.toFixed(2);
+      els.co2KgYear.textContent = totalYear.toFixed(2);
+
+      els.carOnly.textContent = carCO2.toFixed(2);
+      els.transitOnly.textContent = transitCO2.toFixed(2);
+      els.trainOnly.textContent = trainCO2.toFixed(2);
+      els.flightOnly.textContent = flightCO2Week.toFixed(2);
+    }
+
+    ['input', 'change'].forEach(evt => {
+      els.carMiles.addEventListener(evt, compute);
+      els.transitMiles.addEventListener(evt, compute);
+      els.trainMiles.addEventListener(evt, compute);
+      els.flights.addEventListener(evt, compute);
+    });
+
+    els.resetBtn.addEventListener('click', () => {
+      els.carMiles.value = 80;
+      els.transitMiles.value = 20;
+      els.trainMiles.value = 10;
+      els.flights.value = 2;
+      compute();
+    });
+
+    compute();
+  </script>
 
   <footer class="footer">
     <div class="container"><p>HNRS 301 — Art Meets the Climate Crisis</p></div>
