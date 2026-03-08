@@ -10,31 +10,214 @@
 <body>
   <header class="hero">
     <div class="container">
-      <span class="pill">Interactive climate awareness</span>
+      <span class="pill">Interactive Climate Awareness</span>
       <h1>You are the Anthropocene</h1>
       <p class="subhead">Nicholas Nguyen and Kevin Fang</p>
-      <p class="lead">Why the Anthropocene matters—and why small habits add up.</p>
+      <p class="lead">How does your technology consumption contribute to the Climate Crisis?</p>
     </div>
   </header>
-<!-- chane lead -->
+
   <nav class="topnav">
     <div class="container nav-inner">
       <a href="../index.html">Home</a>
       <a href="waste.html">Waste</a>
       <a href="electricity.html">Electricity</a>
       <a href="technology.html">Technology</a>
-      <a href="transportation.html">Tranportation</a>
+      <a href="transportation.html">Transportation</a>
       <a href="conclusion.html">Conclusion</a>
       <a href="aboutus.html">About Us</a>
     </div>
   </nav>
 
   <main class="container">
+
     <section class="card">
-      <h2>Technology</h2>
-      <p></p>
+      <h2>Device Production</h2>
+      <p>
+        Technology often feels clean because so much of it is small, sleek, and digital. But the devices we use every day
+        have long environmental histories before they ever reach our hands. Smartphones, laptops, and other electronics
+        require mining, manufacturing, shipping, and eventual disposal. That means the climate cost of technology is not
+        just about using the device, but also about how often we replace it. The calculator below focuses on ownership and
+        upgrade habits to show how the products themselves contribute to carbon emissions, resource extraction, and e-waste.
+      </p>
     </section>
+
+    <section class="card" id="calculator">
+      <h2>Interactive Technology Calculator</h2>
+      <p class="muted">
+        Adjust the sliders to estimate how your device ownership and upgrade habits contribute to manufacturing emissions and electronic waste.
+      </p>
+
+      <div class="grid2">
+        <div class="card inner">
+          <h3>Technology Inputs</h3>
+
+          <label class="field">
+            <span>Number of smartphones owned in your life</span>
+            <div class="row">
+              <input id="phones" type="range" min="0" max="20" value="5" />
+              <span class="val"><span id="phonesVal">5</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Number of laptops/computers owned in your life</span>
+            <div class="row">
+              <input id="laptops" type="range" min="0" max="15" value="3" />
+              <span class="val"><span id="laptopsVal">3</span></span>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>How often do you upgrade devices?</span>
+            <div class="row">
+              <input id="upgrades" type="range" min="1" max="5" value="3" />
+              <span class="val"><span id="upgradesVal">3</span></span>
+            </div>
+          </label>
+
+          <p class="muted small">
+            1 = Rarely &nbsp;&nbsp; 3 = Sometimes &nbsp;&nbsp; 5 = Very Often
+          </p>
+
+          <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+        </div>
+
+        <div class="card inner">
+          <h3>Your Estimated Impact</h3>
+
+          <div class="bigNumber">
+            <div class="big">
+              <span id="co2KgTotal">0</span>
+              <span class="unit">kg manufacturing CO₂e</span>
+            </div>
+
+            <p class="muted small">
+              Estimated e-waste: <strong><span id="ewasteKg">0</span></strong> kg
+            </p>
+
+            <p class="muted small">
+              Rare earth extraction score: <strong><span id="mineralsScore">0</span></strong>
+            </p>
+          </div>
+
+          <div class="equivalents">
+            <h4>Device Breakdown</h4>
+            <ul>
+              <li><strong>Smartphones:</strong> <span id="phoneCO2">0</span> kg CO₂e</li>
+              <li><strong>Laptops:</strong> <span id="laptopCO2">0</span> kg CO₂e</li>
+              <li><strong>Upgrade pressure added:</strong> <span id="upgradeCO2">0</span> kg CO₂e</li>
+            </ul>
+          </div>
+
+          <p class="muted small">
+            Factors used (rough teaching averages):<br><br>
+            Smartphone manufacturing ≈ 70 kg CO₂e each<br>
+            Laptop/computer manufacturing ≈ 200 kg CO₂e each<br>
+            Smartphone e-waste ≈ 0.2 kg each<br>
+            Laptop/computer e-waste ≈ 2.5 kg each<br>
+            Upgrade frequency adds an estimated multiplier to represent increased replacement habits<br><br>
+            These values are simplified for comparison and awareness.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Discussion</h2>
+      <p>
+        
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Artwork / Visual Interpretation</h2>
+      <div class="placeholder">
+        <p><strong>Placeholder:</strong> Insert technology-related artwork or image here</p>
+      </div>
+      <p>
+        <br>
+        
+      </p>
+    </section>
+
   </main>
+
+  <script>
+    const FACTORS = {
+      phoneCO2: 70,
+      laptopCO2: 200,
+      phoneWaste: 0.2,
+      laptopWaste: 2.5
+    };
+
+    const els = {
+      phones: document.getElementById('phones'),
+      laptops: document.getElementById('laptops'),
+      upgrades: document.getElementById('upgrades'),
+
+      phonesVal: document.getElementById('phonesVal'),
+      laptopsVal: document.getElementById('laptopsVal'),
+      upgradesVal: document.getElementById('upgradesVal'),
+
+      co2KgTotal: document.getElementById('co2KgTotal'),
+      ewasteKg: document.getElementById('ewasteKg'),
+      mineralsScore: document.getElementById('mineralsScore'),
+
+      phoneCO2: document.getElementById('phoneCO2'),
+      laptopCO2: document.getElementById('laptopCO2'),
+      upgradeCO2: document.getElementById('upgradeCO2'),
+
+      resetBtn: document.getElementById('resetBtn')
+    };
+
+    function compute() {
+      const phones = Number(els.phones.value);
+      const laptops = Number(els.laptops.value);
+      const upgrades = Number(els.upgrades.value);
+
+      els.phonesVal.textContent = phones;
+      els.laptopsVal.textContent = laptops;
+      els.upgradesVal.textContent = upgrades;
+
+      const basePhoneCO2 = phones * FACTORS.phoneCO2;
+      const baseLaptopCO2 = laptops * FACTORS.laptopCO2;
+
+      // Upgrade multiplier: 1 = +0%, 2 = +10%, 3 = +20%, 4 = +30%, 5 = +40%
+      const upgradeMultiplier = 1 + ((upgrades - 1) * 0.10);
+      const baseTotal = basePhoneCO2 + baseLaptopCO2;
+      const totalCO2 = baseTotal * upgradeMultiplier;
+      const addedUpgradeCO2 = totalCO2 - baseTotal;
+
+      const ewaste = (phones * FACTORS.phoneWaste) + (laptops * FACTORS.laptopWaste);
+
+      // Simple resource extraction score for comparison only
+      const mineralsScore = Math.round((phones * 2 + laptops * 5) * upgradeMultiplier);
+
+      els.co2KgTotal.textContent = totalCO2.toFixed(2);
+      els.ewasteKg.textContent = ewaste.toFixed(2);
+      els.mineralsScore.textContent = mineralsScore.toLocaleString();
+
+      els.phoneCO2.textContent = basePhoneCO2.toFixed(2);
+      els.laptopCO2.textContent = baseLaptopCO2.toFixed(2);
+      els.upgradeCO2.textContent = addedUpgradeCO2.toFixed(2);
+    }
+
+    ['input', 'change'].forEach(evt => {
+      els.phones.addEventListener(evt, compute);
+      els.laptops.addEventListener(evt, compute);
+      els.upgrades.addEventListener(evt, compute);
+    });
+
+    els.resetBtn.addEventListener('click', () => {
+      els.phones.value = 5;
+      els.laptops.value = 3;
+      els.upgrades.value = 3;
+      compute();
+    });
+
+    compute();
+  </script>
 
   <footer class="footer">
     <div class="container"><p>HNRS 301 — Art Meets the Climate Crisis</p></div>
