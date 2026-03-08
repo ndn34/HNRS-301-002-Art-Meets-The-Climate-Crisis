@@ -105,6 +105,10 @@
               <span id="kwhWeek">0</span>
               <span class="unit">kWh / week</span>
             </div>
+
+            <p class="muted small">
+              CO₂e emissions: <strong><span id="co2Week">0</span></strong> kg CO₂e/week
+            </p>
           </div>
 
           <p class="muted small">
@@ -145,7 +149,8 @@
       streamingkWh: 0.05,
       chatbotkWh:   0.02,
       hvackWh:      3.0,
-      fridgekWh:    3.5   // per fridge per week
+      fridgekWh:    3.5,  // per fridge per week
+      co2PerKwh:    0.37  // kg CO2e per kWh (US average)
     };
 
     const els = {
@@ -163,7 +168,8 @@
       hvacVal:      document.getElementById('hvacVal'),
       fridgesVal:   document.getElementById('fridgesVal'),
 
-      kwhWeek: document.getElementById('kwhWeek'),
+      kwhWeek:  document.getElementById('kwhWeek'),
+      co2Week:  document.getElementById('co2Week'),
       resetBtn: document.getElementById('resetBtn')
     };
 
@@ -193,6 +199,7 @@
         fridges   * FACTORS.fridgekWh;
 
       els.kwhWeek.textContent = kwh.toFixed(2);
+      els.co2Week.textContent = (kwh * FACTORS.co2PerKwh).toFixed(2);
     }
 
     // slider listeners
