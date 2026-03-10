@@ -270,3 +270,4 @@ input[type="range"]{
   .grid2{ grid-template-columns: 1fr; }
   .linkGrid{ grid-template-columns: repeat(2, 1fr); }
 }
+
