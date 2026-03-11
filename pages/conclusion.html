@@ -6,6 +6,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css" />
+  <style>
+    .slideshow-wrap{
+      text-align: center;
+    }
+
+    .slideshow-frame{
+      margin-top: 1rem;
+    }
+
+    .slideshow-title{
+      margin-top: .75rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+    }
+
+    .slide-caption{
+      margin-top: .5rem;
+    }
+
+    .slide-counter{
+      margin-top: .35rem;
+      font-size: .95rem;
+    }
+
+    .slideshow-container{
+      position: relative;
+      display: inline-block;
+    }
+
+    .slide-arrow{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: .5rem .8rem;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 20;
+      min-width: 54px;
+      min-height: 84px;
+    }
+
+    .slide-arrow.left{
+      left: 10px;
+    }
+
+    .slide-arrow.right{
+      right: 10px;
+    }
+
+    .slide-arrow:hover{
+      background: rgba(0,0,0,0.85);
+    }
+
+    #chrisJordanSlide{
+      position: relative;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
   <header class="hero">
@@ -13,7 +75,7 @@
       <span class="pill">Interactive Climate Awareness</span>
       <h1>You are the Anthropocene</h1>
       <p class="subhead">Nicholas Nguyen and Kevin Fang</p>
-      <p class="lead">Key takeaways and what changes actually move the needle.</p>
+      <p class="lead">Key takeaways and additional works that reflect the environmental themes of this project.</p>
     </div> 
   </header>
 
@@ -23,7 +85,7 @@
       <a href="waste.html">Waste</a>
       <a href="electricity.html">Electricity</a>
       <a href="technology.html">Technology</a>
-      <a href="transportation.html">Tranportation</a>
+      <a href="transportation.html">Transportation</a>
       <a href="conclusion.html">Conclusion</a>
       <a href="aboutus.html">About Us</a>
     </div>
@@ -46,13 +108,220 @@
     </section>
 
     <section class="card">
-      <h2>"Mickey in the Drainage Canal Along '60-Foot Road' in Dharavi" by Jeff Gillette" by Jeff Gillette</h2>
-      <img src="../images/Micket.png" alt="Mickey in the Drainage Canal Along '60-Foot Road' in Dharavi by Jeff Gillette" style="width: 100%; max-width: 1500px; display: block; margin: 0 auto;" />
+      <h2>More Works by Jeff Gillette</h2>
       <p>
-        <br>More of Jeff Gillette's work that I enjoyed.
+        Jeff Gillette’s work combines bright, familiar imagery with landscapes shaped by poverty, pollution, and discarded material. 
+        His pieces feel both surreal and unsettling, which makes them a strong fit for the themes of this site.
       </p>
+
+      <div class="slideshow-wrap">
+        <div class="slideshow-frame gillette-stage">
+          <button class="slide-arrow left" id="prevGilletteBtn">&#10094;</button>
+
+          <img
+            id="gilletteSlide"
+            src="../images/Micket.png"
+            alt="Jeff Gillette artwork"
+            class="gillette-artwork"
+          />
+
+          <button class="slide-arrow right" id="nextGilletteBtn">&#10095;</button>
+        </div>
+
+        <div class="slideshow-title" id="gilletteTitle">"Mickey in the Drainage Canal Along '60-Foot Road' in Dharavi"</div>
+
+        <p class="muted slide-counter">
+          <span id="gilletteIndex">1</span> / <span id="gilletteTotal">2</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>More Works by Chris Jordan</h2>
+      <p>
+        Chris Jordan is known for creating large-scale visual works that transform environmental statistics into striking imagery. 
+        These pieces connect well with the themes of this project because they show how everyday habits and consumer systems scale 
+        into something much larger when viewed as a whole.
+      </p>
+
+      <div class="slideshow-wrap">
+        <div class="slideshow-frame slideshow-container">
+          <button class="slide-arrow left" id="prevSlideBtn">&#10094;</button>
+
+          <img
+            id="chrisJordanSlide"
+            src="../images/plastic_bags2_zoomed_out.png"
+            alt="Chris Jordan artwork"
+            class="artwork-large artwork-clickable"
+          />
+
+          <button class="slide-arrow right" id="nextSlideBtn">&#10095;</button>
+        </div>
+
+        <div class="slideshow-title" id="chrisJordanTitle">Whale, 2011 44x82"</div>
+
+        <p class="muted small slide-caption">
+          Click image to zoom in
+        </p>
+
+        <p class="muted slide-counter">
+          <span id="slideIndex">1</span> / <span id="slideTotal">5</span>
+        </p>
+      </div>
     </section>
   </main>
+
+  <!-- Zoom modal for Chris Jordan only -->
+  <div id="artModal" class="art-modal">
+    <span class="art-modal-close" id="artModalClose">&times;</span>
+
+    <div class="art-modal-inner">
+      <img id="artModalImg" class="art-modal-content" src="" alt="Zoomed artwork view" />
+      <p id="artModalCaption" class="art-modal-caption"></p>
+    </div>
+  </div>
+
+  <script>
+    const slides = [
+      {
+        title: 'Whale, 2011 44x82"',
+        out: "../images/plastic_bags2_zoomed_out.png",
+        in: "../images/plastic_bags2_zoomed_in.png",
+        caption: "Depicts 50,000 plastic bags, equal to the average number of pieces of floating plastic per square mile in the Pacific Ocean (2010 statistic). Based on a photo by Bryant Austin."
+      },
+      {
+        title: 'Venus, 2011 60x103"',
+        out: "../images/plastic_bags_zoomed_out.png",
+        in: "../images/plastic_bags_zoomed_in.png",
+        caption: "Depicts 240,000 plastic bags, equal to the average number of plastic bags consumed around the world every ten seconds (2010 statistic)."
+      },
+      {
+        title: 'Gyre, 2009 60x90"',
+        out: "../images/plastics_zoomed_out.png",
+        in: "../images/plastics_zoomed_in.png",
+        caption: "Depicts 2.5 million pieces of plastic collected from the Pacific Ocean."
+      },
+      {
+        title: 'Carbon, 2018 8x15 feet in four panels',
+        out: "../images/coal_zoomed_out.png",
+        in: "../images/coal_zoomed_in.png",
+        caption: "Depicts 2,400,000 pieces of coal, equal to the estimated number of kilograms of carbon being emitted into Earth's atmosphere every second by the human burning of fossil fuels (2023 statistic)."
+      },
+      {
+        title: 'Unsinkable, 2013 60x107"',
+        out: "../images/uranium_zoomed_out.png",
+        in: "../images/uranium_zoomed_in.png",
+        caption: "Depicts 67,000 mushroom clouds, equal to the number of metric tons of ultra-radioactive uranium/plutonium waste stored in temporary pools at the 104 nuclear power plants in the US (2013 statistic)."
+      }
+    ];
+
+    const gilletteSlides = [
+      {
+        title: "Mickey in the Drainage Canal Along '60-Foot Road' in Dharavi",
+        src: "../images/Micket.png"
+      },
+      {
+        title: "Abandoned Dismaland",
+        src: "../images/dismaland.png"
+      }
+    ];
+
+    let currentSlide = 0;
+    let currentGilletteSlide = 0;
+
+    const slideImg = document.getElementById('chrisJordanSlide');
+    const slideTitle = document.getElementById('chrisJordanTitle');
+    const slideIndex = document.getElementById('slideIndex');
+    const slideTotal = document.getElementById('slideTotal');
+    const prevSlideBtn = document.getElementById('prevSlideBtn');
+    const nextSlideBtn = document.getElementById('nextSlideBtn');
+
+    const gilletteImg = document.getElementById('gilletteSlide');
+    const gilletteTitle = document.getElementById('gilletteTitle');
+    const gilletteIndex = document.getElementById('gilletteIndex');
+    const gilletteTotal = document.getElementById('gilletteTotal');
+    const prevGilletteBtn = document.getElementById('prevGilletteBtn');
+    const nextGilletteBtn = document.getElementById('nextGilletteBtn');
+
+    const artModal = document.getElementById('artModal');
+    const artModalImg = document.getElementById('artModalImg');
+    const artModalClose = document.getElementById('artModalClose');
+    const artModalCaption = document.getElementById('artModalCaption');
+
+    slideTotal.textContent = slides.length;
+    gilletteTotal.textContent = gilletteSlides.length;
+
+    function renderSlide() {
+      const slide = slides[currentSlide];
+
+      slideImg.src = slide.out;
+      slideImg.alt = slide.title;
+      slideTitle.textContent = slide.title;
+      slideIndex.textContent = currentSlide + 1;
+
+      artModalImg.src = slide.in;
+      artModalImg.alt = slide.title + " zoomed in";
+      artModalCaption.textContent = slide.caption;
+    }
+
+    function renderGilletteSlide() {
+      const slide = gilletteSlides[currentGilletteSlide];
+
+      gilletteImg.src = slide.src;
+      gilletteImg.alt = slide.title;
+      gilletteTitle.textContent = slide.title;
+      gilletteIndex.textContent = currentGilletteSlide + 1;
+    }
+
+    prevSlideBtn.addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      renderSlide();
+    });
+
+    nextSlideBtn.addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      renderSlide();
+    });
+
+    prevGilletteBtn.addEventListener('click', () => {
+      currentGilletteSlide = (currentGilletteSlide - 1 + gilletteSlides.length) % gilletteSlides.length;
+      renderGilletteSlide();
+    });
+
+    nextGilletteBtn.addEventListener('click', () => {
+      currentGilletteSlide = (currentGilletteSlide + 1) % gilletteSlides.length;
+      renderGilletteSlide();
+    });
+
+    slideImg.addEventListener('click', () => {
+      artModal.style.display = 'flex';
+    });
+
+    artModalClose.addEventListener('click', () => {
+      artModal.style.display = 'none';
+    });
+
+    artModal.addEventListener('click', (e) => {
+      if (e.target === artModal) {
+        artModal.style.display = 'none';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        artModal.style.display = 'none';
+      } else if (e.key === 'ArrowRight') {
+        currentSlide = (currentSlide + 1) % slides.length;
+        renderSlide();
+      } else if (e.key === 'ArrowLeft') {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        renderSlide();
+      }
+    });
+
+    renderSlide();
+    renderGilletteSlide();
+  </script>
 
   <footer class="footer">
     <div class="container"><p>HNRS 301 — Art Meets the Climate Crisis</p></div>

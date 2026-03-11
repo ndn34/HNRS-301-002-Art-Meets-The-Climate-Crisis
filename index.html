@@ -6,6 +6,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+    <style>
+      .homepage-slideshow-wrap{
+        text-align: center;
+      }
+
+      .homepage-slideshow-frame{
+        position: relative;
+        width: 100%;
+        max-width: 950px;
+        height: 460px;
+        margin: 1rem auto 0;
+        overflow: hidden;
+        border-radius: 12px;
+      }
+
+      .homepage-slide-img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 12px;
+      }
+
+      .homepage-slide-title,
+      .homepage-slide-text,
+      .homepage-slide-counter{
+        width: 100%;
+        max-width: 950px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
+      .homepage-slide-title{
+        margin-top: .85rem;
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .homepage-slide-text{
+        margin-top: .35rem;
+      }
+
+      .homepage-slide-counter{
+        margin-top: .45rem;
+        font-size: .95rem;
+      }
+
+      .homepage-arrow{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        background: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        padding: .5rem .8rem;
+        cursor: pointer;
+        border-radius: 4px;
+        z-index: 20;
+        min-width: 54px;
+        min-height: 84px;
+      }
+
+      .homepage-arrow.left{
+        left: 10px;
+      }
+
+      .homepage-arrow.right{
+        right: 10px;
+      }
+
+      .homepage-arrow:hover{
+        background: rgba(0,0,0,0.85);
+      }
+
+      @media (max-width: 700px){
+        .homepage-slideshow-frame{
+          height: 300px;
+        }
+      }
+    </style>
 </head>
 
 <body>
@@ -22,7 +105,7 @@
 
   <nav class="topnav">
     <div class="container nav-inner">
-      <a href="pages/index.html">Home</a>
+      <a href="index.html">Home</a>
       <a href="pages/waste.html">Waste</a>
       <a href="pages/electricity.html">Electricity</a>
       <a href="pages/technology.html">Technology</a>
@@ -34,7 +117,6 @@
 
   <main class="container">
 
-    <!-- INTERACTIVE EMISSIONS COUNTER -->
     <section class="card" id="calculator">
       <h2>Interactive Emissions Counter</h2>
       <p class="muted">
@@ -115,31 +197,46 @@
       </div>
     </section>
 
-    <!-- VISUAL PLACEHOLDER -->
     <section class="card">
-      <h2>Visual Element (Coming Soon)</h2>
+      <h2>Visualizing the Anthropocene</h2>
       <p class="muted">
-        This will become a chart, infographic, or image gallery showing how impacts compare across categories (waste, electricity, transportation, electronics).
+        These images highlight how different parts of daily life connect to larger environmental systems.
       </p>
-      <div class="placeholder">
-        <p><strong>Placeholder:</strong> Insert chart / slideshow / image here</p>
+
+      <div class="homepage-slideshow-wrap">
+        <div class="homepage-slideshow-frame">
+          <button class="homepage-arrow left" id="homePrevBtn">&#10094;</button>
+
+          <img
+            id="homeSlideImg"
+            src="images/homepage_waste.png"
+            alt="Waste and the Anthropocene"
+            class="homepage-slide-img"
+          />
+
+          <button class="homepage-arrow right" id="homeNextBtn">&#10095;</button>
+        </div>
+
+        <div class="homepage-slide-title" id="homeSlideTitle">Waste</div>
+        <p class="muted homepage-slide-text" id="homeSlideText">
+          Single-use products and discarded materials make visible the scale of modern consumption.
+        </p>
+        <p class="muted homepage-slide-counter">
+          <span id="homeSlideIndex">1</span> / <span id="homeSlideTotal">5</span>
+        </p>
       </div>
     </section>
 
-    <!-- WHAT IS THE ANTHROPOCENE -->
     <section class="card">
       <h2>What is the Anthropocene?</h2>
       <p>
-        The “Anthropocene” is a proposed term for a new geological epoch where human activity has become a dominant force shaping Earth’s climate, ecosystems,
-        and even the physical layers of the planet. In other words, our everyday decisions—energy use, consumption, transportation, and waste—leave lasting marks
-        that can be detected on a global scale.
+        The “Anthropocene” is a proposed term for a new geological epoch in which human activity has become a dominant force shaping Earth’s climate, ecosystems, and even the physical layers of the planet. In simple terms, everyday human actions such as energy use, consumption, transportation, and waste production leave measurable marks on the planet that can be detected on a global scale.
       </p>
       <p class="muted">
-        This site uses interactive estimates to make those impacts easier to feel and compare—turning abstract climate data into something personal and visible.
+        This site uses interactive estimates to help make those impacts easier to understand and compare. The goal is to turn abstract climate data into something more personal and visible by connecting environmental change to ordinary daily habits.
       </p>
     </section>
 
-    <!-- EXPLORE RESEARCH SECTIONS -->
     <section class="card">
       <h2>Explore the Research Sections</h2>
       <div class="linkGrid">
@@ -194,42 +291,34 @@
       const stream = Number(els.stream.value);
       const idle = Number(els.idle.value);
 
-      // display slider values
       els.milesVal.textContent = miles;
       els.takeoutVal.textContent = takeoutWeek;
       els.streamVal.textContent = stream;
       els.idleVal.textContent = idle;
 
-      // weekly takeout -> per day
       const takeoutPerDay = takeoutWeek / 7;
 
-      // daily total in kg CO2e
       const totalKgDay =
         miles * FACTORS.carKgPerMile +
         takeoutPerDay * FACTORS.takeoutKgPerMeal +
         stream * FACTORS.streamKgPerHour +
         idle * FACTORS.idleKgPerHour;
 
-      // kg/day
       const kgDayRounded = Math.round(totalKgDay * 10) / 10;
       els.co2KgDay.textContent = kgDayRounded.toFixed(1);
 
-      // lb/day
       const lbDay = totalKgDay * KG_TO_LB;
       els.co2LbDay.textContent = Math.round(lbDay).toLocaleString();
 
-      // kg/year + metric tons/year
       const kgYear = totalKgDay * 365;
       els.co2KgYear.textContent = Math.round(kgYear).toLocaleString();
 
       const metricTonsYear = kgYear / 1000;
       els.co2TonsYear.textContent = metricTonsYear.toFixed(2);
 
-      // equivalents (rough visuals)
       const drivingEq = totalKgDay / FACTORS.carKgPerMile;
       els.eqMiles.textContent = Math.round(drivingEq).toLocaleString();
 
-      // tree offset (placeholder): 1 tree ~21 kg CO2/year (very rough)
       const trees = Math.round(kgYear / 21);
       els.eqTrees.textContent = clamp(trees, 0, 9999).toLocaleString();
     }
@@ -250,6 +339,67 @@
     });
 
     compute();
+
+    const homeSlides = [
+      {
+        title: "Waste",
+        text: "Single-use products and discarded materials make visible the scale of modern consumption.",
+        src: "images/homepage_waste.png"
+      },
+      {
+        title: "Electricity",
+        text: "Digital systems and energy infrastructure often appear invisible, even though they require massive physical resources.",
+        src: "images/homepage_electricity.png"
+      },
+      {
+        title: "Technology",
+        text: "Modern devices carry hidden costs through mining, manufacturing, labor, and electronic waste.",
+        src: "images/homepage_technology.png"
+      },
+      {
+        title: "Transportation",
+        text: "Cars, planes, and transit systems shape everyday movement while producing emissions on a much larger scale.",
+        src: "images/homepage_transportation.png"
+      },
+      {
+        title: "Planetary Scale",
+        text: "Earth at night reveals how deeply human activity now shapes the planet at a global scale.",
+        src: "images/homepage_earth_at_night.png"
+      }
+    ];
+
+    let currentHomeSlide = 0;
+
+    const homeSlideImg = document.getElementById('homeSlideImg');
+    const homeSlideTitle = document.getElementById('homeSlideTitle');
+    const homeSlideText = document.getElementById('homeSlideText');
+    const homeSlideIndex = document.getElementById('homeSlideIndex');
+    const homeSlideTotal = document.getElementById('homeSlideTotal');
+    const homePrevBtn = document.getElementById('homePrevBtn');
+    const homeNextBtn = document.getElementById('homeNextBtn');
+
+    homeSlideTotal.textContent = homeSlides.length;
+
+    function renderHomeSlide() {
+      const slide = homeSlides[currentHomeSlide];
+      homeSlideImg.src = slide.src;
+      homeSlideImg.alt = slide.title;
+      homeSlideTitle.textContent = slide.title;
+      homeSlideText.textContent = slide.text;
+      homeSlideIndex.textContent = currentHomeSlide + 1;
+    }
+
+    homePrevBtn.addEventListener('click', () => {
+      currentHomeSlide = (currentHomeSlide - 1 + homeSlides.length) % homeSlides.length;
+      renderHomeSlide();
+    });
+
+    homeNextBtn.addEventListener('click', () => {
+      currentHomeSlide = (currentHomeSlide + 1) % homeSlides.length;
+      renderHomeSlide();
+    });
+
+    renderHomeSlide();
   </script>
 
   <footer class="footer">

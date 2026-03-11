@@ -126,22 +126,47 @@
     <section class="card">
       <h2>Discussion</h2>
       <p>
-      Transportation is one of the largest contributors to carbon emissions for individuals. In the United States, most people rely on personal vehicles for daily travel, whether it is commuting to work, running errands, or visiting friends and family. While a single car trip may not seem like it produces much pollution, these trips happen millions of times every day. Over time, this adds up to a significant environmental impact. Public transportation such as buses and trains can reduce emissions because they move many people using a single vehicle rather than one car per person. Air travel also plays a role in transportation emissions. Although most people do not fly regularly, even a few flights per year can add a noticeable amount to an individual's carbon footprint. Another factor that is often overlooked is the environmental cost of producing vehicles themselves. Manufacturing cars requires large amounts of materials, energy, and transportation before the vehicle is ever driven. Transportation systems are deeply connected to how cities are designed, which means that reducing emissions is not always just about personal choice. However, small changes such as carpooling, using public transit when possible, or reducing unnecessary trips can still make a meaningful difference when practiced consistently.
+        Transportation is one of the largest contributors to carbon emissions for individuals. In the United States, most people rely on personal vehicles for daily travel, whether it is commuting to work, running errands, or visiting friends and family. While a single car trip may not seem like it produces much pollution, these trips happen millions of times every day. Over time, this adds up to a significant environmental impact. Public transportation such as buses and trains can reduce emissions because they move many people using a single vehicle rather than one car per person. Air travel also plays a role in transportation emissions. Although most people do not fly regularly, even a few flights per year can add a noticeable amount to a person's carbon footprint. Another factor that is often overlooked is the environmental cost of producing vehicles themselves. Manufacturing cars requires large amounts of materials, energy, and transportation before the vehicle is ever driven. Transportation systems are deeply connected to how cities are designed, which means that reducing emissions is not always just about personal choice. However, small changes such as carpooling, using public transit when possible, or reducing unnecessary trips can still make a meaningful difference when practiced consistently.
       </p>
     </section>
 
     <section class="card">
-      <h2>Artwork / Visual Interpretation</h2>
-      <div class="placeholder">
-        <p><strong>Placeholder:</strong> Insert transportation-related artwork or image here</p>
+      <h2>"Jet Trails" by Chris Jordan</h2>
+
+      <div class="artwork-click-wrap">
+        <img
+          src="../images/jet_trails_zoomed_out.png"
+          alt="Jet Trails by Chris Jordan"
+          class="artwork-large artwork-clickable"
+          id="jetTrailsThumb"
+        />
+        <p class="muted small" style="text-align:center; margin-top:.5rem;">
+          Click image to zoom in
+        </p>
       </div>
+
       <p>
-        <br>
-        
+        <br>Chris Jordan is an American artist known for creating large-scale works that visualize mass consumption and environmental impact. His series <em>Running the Numbers</em> turns overwhelming statistics into images that are both beautiful and unsettling. This piece, <em>Jet Trails</em>, uses countless airplane paths to form a dense field of white streaks across the sky. From far away, the image looks almost calm and abstract. But when viewed more closely, it becomes crowded and chaotic, which mirrors how modern air travel works. A single flight might not seem significant, but millions of flights every year create an enormous transportation network with a heavy environmental cost. I chose this piece because it captures that idea visually. Air travel is often normalized because most of us only experience it one trip at a time, but Jordan’s work reveals the scale of the system when all those individual trips are viewed together. It shows that transportation emissions are not only about one person driving or one plane taking off, but about the immense web of movement that defines modern life.
       </p>
     </section>
 
   </main>
+
+  <!-- Zoom modal -->
+  <div id="artModal" class="art-modal">
+    <span class="art-modal-close" id="artModalClose">&times;</span>
+
+    <div class="art-modal-inner">
+      <img id="artModalImg" class="art-modal-content"
+      src="../images/jet_trails_zoomed_in.png"
+      alt="Jet Trails by Chris Jordan" />
+
+      <p class="art-modal-caption">
+        Depicts 11,000 jet trails, equal to the number of commercial jet flights
+        in the United States every eight hours (2006 statistic).
+      </p>
+    </div>
+  </div>
 
   <script>
     const FACTORS = {
@@ -219,6 +244,30 @@
     });
 
     compute();
+
+    const artThumb = document.getElementById('jetTrailsThumb');
+    const artModal = document.getElementById('artModal');
+    const artModalClose = document.getElementById('artModalClose');
+
+    artThumb.addEventListener('click', () => {
+      artModal.style.display = 'flex';
+    });
+
+    artModalClose.addEventListener('click', () => {
+      artModal.style.display = 'none';
+    });
+
+    artModal.addEventListener('click', (e) => {
+      if (e.target === artModal) {
+        artModal.style.display = 'none';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        artModal.style.display = 'none';
+      }
+    });
   </script>
 
   <footer class="footer">
